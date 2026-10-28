@@ -71,11 +71,14 @@ class MainActivity : AppCompatActivity() {
         status.text = getString(R.string.loading)
         Thread {
             try {
-                val servers = VpnGateApi.fetchServers()
+                val result = VpnGateApi.fetchServers(filesDir)
                 runOnUiThread {
-                    allServers = servers
+                    allServers = result.servers
                     swipe.isRefreshing = false
                     applyFilter()
+                    if (result.fromCache) {
+                        Toast.makeText(this, R.string.using_cache, Toast.LENGTH_LONG).show()
+                    }
                 }
             } catch (e: Exception) {
                 runOnUiThread {

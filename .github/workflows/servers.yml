@@ -1,0 +1,42 @@
+name: Update server list
+
+# Copies the VPN Gate server list into this repo every hour, so the app can
+# load it from GitHub on networks that block vpngate.net.
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: servers
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download list from VPN Gate
+        run: |
+          for url in https://www.vpngate.net/api/iphone/ http://www.vpngate.net/api/iphone/; do
+            if curl -fsSL --max-time 90 -A "FreeVPN-Updater/1.0" "$url" -o servers.csv \
+               && grep -q "^\*vpn_servers" servers.csv; then
+              break
+            fi
+          done
+          lines=$(grep -c "^[^*#]" servers.csv || true)
+          echo "Servers: $lines"
+          test "$lines" -gt 5
+
+      - name: Publish to the 'servers' branch
+        run: |
+          mkdir out && mv servers.csv out/ && cd out
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > updated.txt
+          git init -q -b servers
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "Server list $(cat updated.txt)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" servers

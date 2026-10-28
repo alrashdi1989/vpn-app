@@ -1,6 +1,7 @@
 package com.freevpn.app
 
 import android.util.Base64
+import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -32,27 +33,44 @@ data class Server(
  * run by the University of Tsukuba, Japan): https://www.vpngate.net
  */
 object VpnGateApi {
+    // GitHub copies first (refreshed hourly by .github/workflows/servers.yml),
+    // because vpngate.net itself is blocked on many networks.
     private val URLS = listOf(
+        "https://raw.githubusercontent.com/alrashdi1989/vpn-app/servers/servers.csv",
+        "https://cdn.jsdelivr.net/gh/alrashdi1989/vpn-app@servers/servers.csv",
         "https://www.vpngate.net/api/iphone/",
         "http://www.vpngate.net/api/iphone/",
     )
 
-    fun fetchServers(): List<Server> {
+    private const val CACHE_FILE = "servers_cache.csv"
+
+    class Result(val servers: List<Server>, val fromCache: Boolean)
+
+    fun fetchServers(cacheDir: File): Result {
+        val cache = File(cacheDir, CACHE_FILE)
         var lastError: Exception? = null
         for (url in URLS) {
             try {
-                val servers = parse(download(url))
-                if (servers.isNotEmpty()) return servers
+                val csv = download(url)
+                val servers = parse(csv)
+                if (servers.isNotEmpty()) {
+                    try { cache.writeText(csv) } catch (_: Exception) {}
+                    return Result(servers, fromCache = false)
+                }
             } catch (e: Exception) {
                 lastError = e
             }
+        }
+        if (cache.exists()) {
+            val servers = parse(cache.readText())
+            if (servers.isNotEmpty()) return Result(servers, fromCache = true)
         }
         throw lastError ?: IOException("No servers returned")
     }
 
     private fun download(address: String): String {
         val conn = URL(address).openConnection() as HttpURLConnection
-        conn.connectTimeout = 15_000
+        conn.connectTimeout = 10_000
         conn.readTimeout = 45_000
         conn.setRequestProperty("User-Agent", "FreeVPN-Android/1.0")
         try {
