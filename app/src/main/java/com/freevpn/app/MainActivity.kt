@@ -8,17 +8,18 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.view.WindowCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -28,10 +29,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var swipe: SwipeRefreshLayout
     private lateinit var status: TextView
-    private lateinit var search: TextInputEditText
+    private lateinit var search: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(findViewById<MaterialToolbar>(R.id.toolbar))
@@ -45,6 +47,8 @@ class MainActivity : AppCompatActivity() {
             adapter = this@MainActivity.adapter
         }
 
+        swipe.setColorSchemeColors(0xFF8FE3FF.toInt(), 0xFFC9A7FF.toInt())
+        swipe.setProgressBackgroundColorSchemeColor(0xFF232A5C.toInt())
         swipe.setOnRefreshListener { loadServers() }
         search.doAfterTextChanged { applyFilter() }
 
@@ -83,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun applyFilter() {
-        val q = search.text?.toString()?.trim().orEmpty()
+        val q = search.text.toString().trim()
         val list = if (q.isEmpty()) allServers else allServers.filter {
             it.country.contains(q, ignoreCase = true) ||
                 it.countryCode.equals(q, ignoreCase = true) ||

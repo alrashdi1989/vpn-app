@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.FreeVPN" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#1E6FD9</item>
-        <item name="colorSecondary">#12A594</item>
+    <style name="Theme.FreeVPN" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#8FE3FF</item>
+        <item name="colorOnPrimary">#04263A</item>
+        <item name="colorSecondary">#C9A7FF</item>
+        <item name="colorAccent">#8FE3FF</item>
+        <item name="android:windowBackground">@drawable/bg_glass</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.FreeVPN.GlassDialog</item>
     </style>
 
-    <color name="ic_launcher_background">#1E6FD9</color>
+    <style name="ThemeOverlay.FreeVPN.GlassDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowBackground">@drawable/glass_dialog</item>
+        <item name="colorPrimary">#8FE3FF</item>
+        <item name="colorSurface">#00000000</item>
+        <item name="android:backgroundDimAmount">0.55</item>
+    </style>
+
+    <color name="ic_launcher_background">#2A2F8F</color>
+    <color name="glass_text">#FFFFFF</color>
+    <color name="glass_text_dim">#B3FFFFFF</color>
+    <color name="glass_accent">#8FE3FF</color>
 </resources>

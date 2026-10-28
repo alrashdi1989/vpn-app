@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Deep gradient with soft colored glows that shine through the glass cards -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:angle="135"
+                android:startColor="#0B1033"
+                android:centerColor="#1A1450"
+                android:endColor="#06243D" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:type="radial"
+                android:centerX="0.15"
+                android:centerY="0.12"
+                android:gradientRadius="320dp"
+                android:startColor="#995B6CFF"
+                android:endColor="#005B6CFF" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:type="radial"
+                android:centerX="0.95"
+                android:centerY="0.45"
+                android:gradientRadius="300dp"
+                android:startColor="#80C04BFF"
+                android:endColor="#00C04BFF" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:type="radial"
+                android:centerX="0.2"
+                android:centerY="0.92"
+                android:gradientRadius="340dp"
+                android:startColor="#7A12D6C8"
+                android:endColor="#0012D6C8" />
+        </shape>
+    </item>
+</layer-list>

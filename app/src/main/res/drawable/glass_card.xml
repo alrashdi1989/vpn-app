@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Frosted glass panel: translucent fill, top-lit sheen and a bright hairline edge -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#33FFFFFF">
+    <item>
+        <shape>
+            <corners android:radius="22dp" />
+            <gradient
+                android:angle="270"
+                android:startColor="#2EFFFFFF"
+                android:endColor="#14FFFFFF" />
+            <stroke
+                android:width="1dp"
+                android:color="#40FFFFFF" />
+        </shape>
+    </item>
+</ripple>

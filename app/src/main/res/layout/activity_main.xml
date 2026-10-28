@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_glass"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -10,33 +12,52 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="@string/app_name" />
+        android:background="@android:color/transparent"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/glass_text" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginHorizontal="16dp"
-        android:hint="@string/search_hint"
-        app:startIconDrawable="@android:drawable/ic_menu_search">
+        android:background="@drawable/glass_field"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:alpha="0.7"
+            android:contentDescription="@null"
+            android:src="@android:drawable/ic_menu_search"
+            app:tint="@color/glass_text" />
+
+        <EditText
             android:id="@+id/search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="@string/search_hint"
             android:imeOptions="actionSearch"
+            android:importantForAutofill="no"
             android:inputType="text"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:maxLines="1"
+            android:textColor="@color/glass_text"
+            android:textColorHint="@color/glass_text_dim"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="22dp"
+        android:layout_marginTop="12dp"
         android:layout_marginBottom="4dp"
-        android:textAppearance="?attr/textAppearanceBodySmall" />
+        android:textColor="@color/glass_text_dim"
+        android:textSize="12sp" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe"
@@ -50,6 +71,6 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingHorizontal="12dp"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="24dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
