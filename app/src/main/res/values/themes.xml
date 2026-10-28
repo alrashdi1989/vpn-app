@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FreeVPN" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#1E6FD9</item>
+        <item name="colorSecondary">#12A594</item>
+    </style>
+
+    <color name="ic_launcher_background">#1E6FD9</color>
+</resources>

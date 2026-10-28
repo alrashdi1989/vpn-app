@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Free VPN</string>
+    <string name="search_hint">Search country (e.g. Japan, US)</string>
+    <string name="loading">Loading free servers…</string>
+    <string name="load_error">Couldn\'t load servers: %1$s\nPull down to try again.</string>
+    <string name="server_count">%1$d free servers · best first · tap one to connect</string>
+    <string name="server_stats">%1$s · %2$s · %3$d users</string>
+    <string name="refresh">Refresh</string>
+    <string name="connect">Connect</string>
+    <string name="save_file">Save .ovpn</string>
+    <string name="install">Install</string>
+    <string name="saved">Saved %1$s to Downloads</string>
+    <string name="save_failed">Save failed: %1$s</string>
+    <string name="server_dialog_msg">Server %1$s\n\n\"Connect\" opens this server in OpenVPN for Android. Import it there, then tap it to connect.\n\nIf asked for a login, the username and password are both: vpn</string>
+    <string name="need_openvpn_title">OpenVPN app needed</string>
+    <string name="need_openvpn_msg">Connecting uses the free, open-source \"OpenVPN for Android\" app. Install it, then come back and tap Connect again.</string>
+    <string name="help_title">How it works</string>
+    <string name="help_msg">Servers come from VPN Gate (vpngate.net), a free public VPN research project at the University of Tsukuba, Japan. Servers are run by volunteers, so they come and go — refresh to get the latest list.\n\n1. Tap a server and choose Connect.\n2. In OpenVPN for Android, import the profile.\n3. Tap the profile to connect and accept the VPN request.\n\nIf a server doesn\'t connect, just try another one.\n\nPrivacy note: volunteer servers can see your unencrypted traffic and VPN Gate keeps connection logs, so use HTTPS sites and avoid sensitive activity.</string>
+</resources>
