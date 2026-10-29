@@ -71,7 +71,9 @@ class MainActivity : AppCompatActivity() {
         status.text = getString(R.string.loading)
         Thread {
             try {
-                val result = VpnGateApi.fetchServers(filesDir)
+                val result = VpnGateApi.fetchServers(filesDir) {
+                    try { assets.open("servers.csv").bufferedReader().use { it.readText() } } catch (e: Exception) { null }
+                }
                 runOnUiThread {
                     allServers = result.servers
                     swipe.isRefreshing = false

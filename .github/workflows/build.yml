@@ -23,6 +23,14 @@ jobs:
         with:
           gradle-version: "8.7"
 
+      - name: Bundle current server list into the app
+        run: |
+          mkdir -p app/src/main/assets
+          curl -fsSL --max-time 90 -A "FreeVPN-Updater/1.0" https://www.vpngate.net/api/iphone/ -o app/src/main/assets/servers.csv \
+            || curl -fsSL --max-time 90 "https://github.com/${{ github.repository }}/raw/servers/servers.csv" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -o app/src/main/assets/servers.csv \
+            || echo "Could not bundle list"
+          ls -l app/src/main/assets || true
+
       - name: Build APK
         run: gradle assembleDebug --no-daemon
 

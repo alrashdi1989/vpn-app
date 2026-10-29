@@ -6,7 +6,7 @@
     <string name="load_error">Couldn\'t load servers (%1$s). Check your internet, then pull down to try again.</string>
     <string name="server_count">%1$d free servers · best first · tap one to connect</string>
     <string name="server_stats">%1$s · %2$s · %3$d users</string>
-    <string name="using_cache">Offline — showing the last saved server list</string>
+    <string name="using_cache">Couldn\'t refresh — showing a saved server list. Some servers may be offline.</string>
     <string name="refresh">Refresh</string>
     <string name="connect">Connect</string>
     <string name="save_file">Save .ovpn</string>

@@ -46,9 +46,9 @@ object VpnGateApi {
 
     class Result(val servers: List<Server>, val fromCache: Boolean)
 
-    fun fetchServers(cacheDir: File): Result {
+    fun fetchServers(cacheDir: File, bundled: () -> String?): Result {
         val cache = File(cacheDir, CACHE_FILE)
-        var lastError: Exception? = null
+        var firstError: Exception? = null
         for (url in URLS) {
             try {
                 val csv = download(url)
@@ -58,14 +58,21 @@ object VpnGateApi {
                     return Result(servers, fromCache = false)
                 }
             } catch (e: Exception) {
-                lastError = e
+                if (firstError == null) firstError = e
             }
         }
-        if (cache.exists()) {
-            val servers = parse(cache.readText())
+        // Offline / everything blocked: last saved list, then the list built into the app
+        try {
+            if (cache.exists()) {
+                val servers = parse(cache.readText())
+                if (servers.isNotEmpty()) return Result(servers, fromCache = true)
+            }
+        } catch (_: Exception) {}
+        try {
+            val servers = bundled()?.let { parse(it) }.orEmpty()
             if (servers.isNotEmpty()) return Result(servers, fromCache = true)
-        }
-        throw lastError ?: IOException("No servers returned")
+        } catch (_: Exception) {}
+        throw firstError ?: IOException("No servers returned")
     }
 
     private fun download(address: String): String {
