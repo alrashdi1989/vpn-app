@@ -24,6 +24,10 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        private val OPENVPN_CLIENTS = listOf("de.blinkt.openvpn", "net.openvpn.openvpn")
+    }
+
     private val adapter = ServerAdapter { showServerOptions(it) }
     private var allServers: List<Server> = emptyList()
 
@@ -124,14 +128,25 @@ class MainActivity : AppCompatActivity() {
         file.writeText(VpnGateApi.compatibleConfig(server))
         val uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
 
+        val client = OPENVPN_CLIENTS.firstOrNull { isInstalled(it) }
+        if (client == null) {
+            askToInstallOpenVpn()
+            return
+        }
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(uri, "application/x-openvpn-profile")
+            setPackage(client)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
         try {
             startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            askToInstallOpenVpn()
+            // Some clients only accept generic file types
+            try {
+                startActivity(intent.setDataAndType(uri, "*/*"))
+            } catch (e2: ActivityNotFoundException) {
+                askToInstallOpenVpn()
+            }
         }
     }
 
@@ -150,6 +165,13 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, getString(R.string.save_failed, e.message), Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun isInstalled(pkg: String): Boolean = try {
+        packageManager.getPackageInfo(pkg, 0)
+        true
+    } catch (e: Exception) {
+        false
     }
 
     private fun askToInstallOpenVpn() {
